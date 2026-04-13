@@ -1,13 +1,102 @@
+<!-- This project for my create task is a Student Gradebook web 
+ application that is designed to help users track and calculate 
+ how they are doing across multiple classes (multiple subjects). 
+ It allows students to enter grades and weight distributions for 
+ different cateogries such as homework, quizzes, tests, projects, 
+ and final exams. The system is built to calculate weighted final 
+ grades for each subject individually and it also includes a GPA 
+ calculator that converts the percentages into subject grades and 
+ then into the 4.0 scale to give an overall academic summary. 
+ Overall, the goal of this project is to create a tool that 
+ simplifies grade tracking and performance evaluation.  -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Student Gradebook</title>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <h1>Your html goes here...</h1>
-    <br>See the <a href="README.md">README</a> for project details
+
+    <h1>Student Gradebook</h1>
+    <p>Track multiple subjects with weighted grades</p>
+
+    <h2>Subjects (Up to 8)</h2>
+
+    <!-- SUBJECT 1 -->
+    <div>
+        <h3>Subject 1</h3>
+        <input type="text" placeholder="Enter subject name">
+
+        <p>Homework</p>
+        <input type="number" placeholder="Weight %">
+        <input type="number" placeholder="Grade">
+
+        <p>Quizzes</p>
+        <input type="number" placeholder="Weight %">
+        <input type="number" placeholder="Grade">
+
+        <p>Tests</p>
+        <input type="number" placeholder="Weight %">
+        <input type="number" placeholder="Grade">
+
+        <p>Projects</p>
+        <input type="number" placeholder="Weight %">
+        <input type="number" placeholder="Grade">
+
+        <p>Final Exam</p>
+        <input type="number" placeholder="Weight %">
+        <input type="number" placeholder="Grade">
+
+        <br>
+        <button>Calculate Final Grade (Subject 1)</button>
+        <button>Check Grade Status (Subject 1)</button>
+    </div>
+
+    <hr>
+
+    <!-- SUBJECT 2 -->
+    <div>
+        <h3>Subject 2</h3>
+        <input type="text" placeholder="Enter subject name">
+
+        <p>Homework</p>
+        <input type="number" placeholder="Weight %">
+        <input type="number" placeholder="Grade">
+
+        <p>Quizzes</p>
+        <input type="number" placeholder="Weight %">
+        <input type="number" placeholder="Grade">
+
+        <p>Tests</p>
+        <input type="number" placeholder="Weight %">
+        <input type="number" placeholder="Grade">
+
+        <p>Projects</p>
+        <input type="number" placeholder="Weight %">
+        <input type="number" placeholder="Grade">
+
+        <p>Final Exam</p>
+        <input type="number" placeholder="Weight %">
+        <input type="number" placeholder="Grade">
+
+        <br>
+        <button>Calculate Final Grade (Subject 2)</button>
+        <button>Check Grade Status (Subject 2)</button>
+    </div>
+
+    <hr>
+
+    <!-- (Repeat for Subjects 3–8) -->
+
+    <h2>Actions (Overall)</h2>
+    <button>Calculate GPA</button>
+
+    <h2>Results</h2>
+    <p>GPA: ___</p>
+
 </body>
 </html>
