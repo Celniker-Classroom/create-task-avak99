@@ -16,87 +16,91 @@
     <meta charset="UTF-8">
     <title>Student Gradebook</title>
     <script src="script.js" defer></script>
-    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-    </h1>Student Gradebook</h1>
-    <p>Track multiple subjects with weighted grades</p>
+<h1>Student Gradebook</h1>
+<p>Track multiple subjects with weighted grades</p>
 
-    <h2>Subjects (Up to 8)</h2>
+<!-- SUBJECT 1 -->
+<div id="subject0">
+    <h3>Subject 1</h3>
 
-    <!-- SUBJECT 1 -->
-    <div>
-        <h3>Subject 1</h3>
-        <input type="text" placeholder="Enter subject name">
+    <input type="number" placeholder="Homework Weight">
+    <input type="number" placeholder="Homework Grade">
+    <input type="number" placeholder="Quizzes Weight">
+    <input type="number" placeholder="Quizzes Grade">
+    <input type="number" placeholder="Tests Weight">
+    <input type="number" placeholder="Tests Grade">
+    <input type="number" placeholder="Projects Weight">
+    <input type="number" placeholder="Projects Grade">
+    <input type="number" placeholder="Final Exam Weight">
+    <input type="number" placeholder="Final Exam Grade">
 
-        <p>Homework</p>
-        <input type="number" placeholder="Weight %">
-        <input type="number" placeholder="Grade">
+    <br>
+    <button id="calc0">Calculate Grade</button>
+    <button id="status0">Check Status</button>
 
-        <p>Quizzes</p>
-        <input type="number" placeholder="Weight %">
-        <input type="number" placeholder="Grade">
+    <p id="result0">Final Grade: ___ | Status: ___</p>
+</div>
 
-        <p>Tests</p>
-        <input type="number" placeholder="Weight %">
-        <input type="number" placeholder="Grade">
+<hr>
 
-        <p>Projects</p>
-        <input type="number" placeholder="Weight %">
-        <input type="number" placeholder="Grade">
+<!-- SUBJECT 2 -->
+<div id="subject1">
+    <h3>Subject 2</h3>
 
-        <p>Final Exam</p>
-        <input type="number" placeholder="Weight %">
-        <input type="number" placeholder="Grade">
+    <input type="number" placeholder="Homework Weight">
+    <input type="number" placeholder="Homework Grade">
+    <input type="number" placeholder="Quizzes Weight">
+    <input type="number" placeholder="Quizzes Grade">
+    <input type="number" placeholder="Tests Weight">
+    <input type="number" placeholder="Tests Grade">
+    <input type="number" placeholder="Projects Weight">
+    <input type="number" placeholder="Projects Grade">
+    <input type="number" placeholder="Final Exam Weight">
+    <input type="number" placeholder="Final Exam Grade">
 
-        <br>
-        <button>Calculate Final Grade (Subject 1)</button>
-        <button>Check Grade Status (Subject 1)</button>
-    </div>
+    <br>
+    <button id="calc1">Calculate Grade</button>
+    <button id="status1">Check Status</button>
 
-    <hr>
+    <p id="result1">Final Grade: ___ | Status: ___</p>
+</div>
 
-    <!-- SUBJECT 2 -->
-    <div>
-        <h3>Subject 2</h3>
-        <input type="text" placeholder="Enter subject name">
+<hr>
 
-        <p>Homework</p>
-        <input type="number" placeholder="Weight %">
-        <input type="number" placeholder="Grade">
+<!-- SUBJECT 3 -->
+<div id="subject2">
+    <h3>Subject 3</h3>
+    <input type="number" placeholder="Homework Weight"><input type="number" placeholder="Homework Grade">
+    <input type="number" placeholder="Quizzes Weight"><input type="number" placeholder="Quizzes Grade">
+    <input type="number" placeholder="Tests Weight"><input type="number" placeholder="Tests Grade">
+    <input type="number" placeholder="Projects Weight"><input type="number" placeholder="Projects Grade">
+    <input type="number" placeholder="Final Exam Weight"><input type="number" placeholder="Final Exam Grade">
 
-        <p>Quizzes</p>
-        <input type="number" placeholder="Weight %">
-        <input type="number" placeholder="Grade">
+    <br>
+    <button id="calc2">Calculate Grade</button>
+    <button id="status2">Check Status</button>
 
-        <p>Tests</p>
-        <input type="number" placeholder="Weight %">
-        <input type="number" placeholder="Grade">
+    <p id="result2">Final Grade: ___ | Status: ___</p>
+</div>
 
-        <p>Projects</p>
-        <input type="number" placeholder="Weight %">
-        <input type="number" placeholder="Grade">
+<hr>
 
-        <p>Final Exam</p>
-        <input type="number" placeholder="Weight %">
-        <input type="number" placeholder="Grade">
+<!-- SUBJECT 4 -->
+<div id="subject3"> ... same structure ... <p id="result3">Final Grade: ___ | Status: ___</p></div>
+<div id="subject4"> ... <p id="result4">Final Grade: ___ | Status: ___</p></div>
+<div id="subject5"> ... <p id="result5">Final Grade: ___ | Status: ___</p></div>
+<div id="subject6"> ... <p id="result6">Final Grade: ___ | Status: ___</p></div>
+<div id="subject7"> ... <p id="result7">Final Grade: ___ | Status: ___</p></div>
 
-        <br>
-        <button>Calculate Final Grade (Subject 2)</button>
-        <button>Check Grade Status (Subject 2)</button>
-    </div>
+<hr>
 
-    <hr>
-
-    <!-- (Repeat for Subjects 3–8) -->
-
-    <h2>Actions (Overall)</h2>
-    <button>Calculate GPA</button>
-
-    <h2>Results</h2>
-    <p>GPA: ___</p>
+<h2>Overall GPA</h2>
+<button id="gpaBtn">Calculate GPA</button>
+<p id="gpaOutput">GPA: ___</p>
 
 </body>
 </html>

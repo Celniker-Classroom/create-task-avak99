@@ -1,29 +1,75 @@
-// add javascript here
-// Store final percentages for GPA calculation
-let subjectGrades = [0, 0]; 
+// LIST (ARRAY)
+let subjectGrades = [0,0,0,0,0,0,0,0];
 
-// Function to calculate a single subject's weighted grade
-function calculateSubjectGrade(subjectIndex) {
-    const container = document.querySelectorAll('div')[subjectIndex];
-    const inputs = container.querySelectorAll('input[type="number"]');
-    let totalWeightedGrade = 0;
+// CALCULATE SUBJECT GRADE
+function calculateSubjectGrade(index) {
+    const container = document.getElementById(`subject${index}`);
+    const inputs = container.querySelectorAll("input");
 
-    // Loop through inputs in pairs (Weight, Grade)
+    let total = 0;
+
+    // ITERATION
     for (let i = 0; i < inputs.length; i += 2) {
-        const weight = parseFloat(inputs[i].value) / 100 || 0;
-        const grade = parseFloat(inputs[i+1].value) || 0;
-        totalWeightedGrade += (grade * weight);
+        let weight = parseFloat(inputs[i].value) / 100 || 0;
+        let grade = parseFloat(inputs[i + 1].value) || 0;
+        total += weight * grade;
     }
 
-    subjectGrades[subjectIndex] = totalWeightedGrade;
-    alert(`Final Grade for Subject ${subjectIndex + 1}: ${totalWeightedGrade.toFixed(2)}%`);
+    subjectGrades[index] = total;
+
+    document.getElementById(`result${index}`).innerText =
+        `Final Grade: ${total.toFixed(2)}% | Status: ---`;
 }
 
-// Function to convert percentage to 4.0 GPA scale
-function getGPAValue(percentage) {
-    if (percentage >= 90) return 4.0;
-    if (percentage >= 80) return 3.0;
-    if (percentage >= 70) return 2.0;
-    if (percentage >= 60) return 1.0;
-    return 0.0;
+// CHECK STATUS (IF / ELSE + HTML OUTPUT)
+function checkStatus(index) {
+    let g = subjectGrades[index];
+    let status = "";
+
+    if (g >= 90) status = "A";
+    else if (g >= 80) status = "B";
+    else if (g >= 70) status = "C";
+    else if (g >= 60) status = "D";
+    else status = "F";
+
+    document.getElementById(`result${index}`).innerText =
+        `Final Grade: ${g.toFixed(2)}% | Status: ${status}`;
 }
+
+// GPA CONVERSION
+function getGPA(g) {
+    if (g >= 90) return 4.0;
+    else if (g >= 80) return 3.0;
+    else if (g >= 70) return 2.0;
+    else if (g >= 60) return 1.0;
+    else return 0.0;
+}
+
+// GPA CALCULATION (ITERATION)
+function calculateGPA() {
+    let total = 0;
+
+    for (let i = 0; i < subjectGrades.length; i++) {
+        total += getGPA(subjectGrades[i]);
+    }
+
+    let gpa = total / subjectGrades.length;
+
+    document.getElementById("gpaOutput").innerText =
+        "GPA: " + gpa.toFixed(2);
+}
+
+// EVENT LISTENERS USING ITERATION
+for (let i = 0; i < 8; i++) {
+
+    document.getElementById(`calc${i}`).addEventListener("click", function () {
+        calculateSubjectGrade(i);
+    });
+
+    document.getElementById(`status${i}`).addEventListener("click", function () {
+        checkStatus(i);
+    });
+}
+
+// GPA BUTTON
+document.getElementById("gpaBtn").addEventListener("click", calculateGPA);
