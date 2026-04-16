@@ -5,7 +5,7 @@ document.getElementById("addBtn").addEventListener("click", function () {
 });
 
 document.getElementById("calcBtn").addEventListener("click", function () {
-    calculate();
+    calculate(grades);
 });
 
 function addGrade() {
@@ -22,13 +22,13 @@ function addGrade() {
     document.getElementById("output").innerText = "Grade added";
 }
 
-function calculate() {
+function calculate(calcGrades) {
     let total = 0;
     let totalWeight = 0;
 
-    for (let i = 0; i < grades.length; i++) {
-        total += grades[i].grade * grades[i].weight;
-        totalWeight += grades[i].weight;
+    for (let i = 0; i < calcGrades.length; i++) {
+         total += calcGrades[i].grade * calcGrades[i].weight;
+         totalWeight += calcGrades[i].weight
     }
 
     let finalGrade = total / totalWeight;
