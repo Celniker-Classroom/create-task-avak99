@@ -23,65 +23,102 @@
 
 <body>
 
-<!-- SETUP SCREEN -->
-<div id="setupScreen" class="screen">
-    <h1>Welcome to Grade Portal</h1>
+<!-- SETUP -->
+<div id="setupScreen" class="setup">
+    <h1>Grade Portal</h1>
 
-    <p>How many classes do you have?</p>
-    <input id="classCount" type="number">
-
-    <button onclick="startSetup()">Start</button>
+    <input id="classCount" type="number" placeholder="Number of classes">
+    <button onclick="startSetup(); clickFX(this)">Start</button>
 </div>
 
-<!-- MAIN APP -->
+<!-- APP -->
 <div id="app" class="hidden">
 
-    <div class="sidebar">
-        <h2>Classes</h2>
-        <div id="classList"></div>
-        <button onclick="toggleDark()">Dark Mode</button>
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Grade Portal</h1>
+
+        <button onclick="toggleMode(); clickFX(this)">
+            Toggle Dark/Light
+        </button>
     </div>
 
-    <div class="main">
+    <div id="errorBox" class="errorBox hidden"></div>
 
-        <h1 id="activeClassTitle">Select a Class</h1>
+    <div class="layout">
 
-        <div class="card">
-            <input id="assignmentName" placeholder="Assignment name">
-
-            <select id="category">
-                <option>Homework</option>
-                <option>Quiz</option>
-                <option>Test</option>
-            </select>
-
-            <input id="earned" type="number" placeholder="Points Earned">
-            <input id="possible" type="number" placeholder="Points Possible">
-
-            <button onclick="addAssignment()">Add Assignment</button>
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h3>Classes</h3>
+            <div id="classList"></div>
         </div>
 
-        <div class="card">
-            <button onclick="calculate()">Calculate Grade</button>
-            <div id="gradeOutput"></div>
-            <div id="gpaOutput"></div>
+        <!-- CENTER -->
+        <div class="center">
+
+            <h2 id="activeClassTitle"></h2>
+
+            <!-- GPA -->
+            <div class="gpaContainer">
+                <div class="gpaCard">
+                    <h3>Unweighted GPA</h3>
+                    <div id="uwGPA">--</div>
+                </div>
+
+                <div class="gpaCard">
+                    <h3>Weighted GPA</h3>
+                    <div id="wGPA">--</div>
+                </div>
+            </div>
+
+            <!-- WEIGHTS (NOW ABOVE INPUT) -->
+            <div class="panel">
+                <h3>Category Weights (%)</h3>
+
+                <input id="hwW" placeholder="Homework">
+                <input id="quizW" placeholder="Quizzes">
+                <input id="testW" placeholder="Tests">
+                <input id="projW" placeholder="Projects">
+                <input id="labW" placeholder="Labs">
+            </div>
+
+            <!-- ADD -->
+            <div class="panel">
+                <input id="assignmentName" placeholder="Assignment">
+                <select id="category">
+                    <option>Homework</option>
+                    <option>Quizzes</option>
+                    <option>Tests</option>
+                    <option>Projects</option>
+                    <option>Labs</option>
+                </select>
+
+                <input id="earned" placeholder="Earned">
+                <input id="possible" placeholder="Possible">
+
+                <button onclick="addAssignment(); clickFX(this)">Add</button>
+            </div>
+
+            <!-- CALC -->
+            <div class="panel">
+                <button onclick="calculate(); clickFX(this)">Calculate</button>
+                <div id="gradeOutput"></div>
+            </div>
+
+            <!-- WHAT IF -->
+            <div class="panel">
+                <h3>What If</h3>
+
+                <input id="whatPercent" placeholder="Desired %">
+                <input id="whatPossible" placeholder="Points">
+
+                <button onclick="whatIf(); clickFX(this)">Simulate</button>
+                <div id="whatResult"></div>
+            </div>
+
         </div>
-
-        <div class="card">
-            <h3>What If Calculator</h3>
-
-            <input id="wEarned" placeholder="Earned Points">
-            <input id="wPossible" placeholder="Possible Points">
-
-            <button onclick="whatIf()">Simulate</button>
-
-            <div id="whatResult"></div>
-        </div>
-
-        <div id="table"></div>
 
     </div>
-
 </div>
 
 <canvas id="confetti"></canvas>
