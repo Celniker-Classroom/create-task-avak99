@@ -1,1 +1,63 @@
-/* Add Global styles here */
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #eef2f7;
+}
+
+/* hidden system */
+.hidden { display: none; }
+
+/* setup screen */
+.screen {
+    text-align: center;
+    margin-top: 120px;
+}
+
+/* layout */
+#app {
+    display: flex;
+}
+
+/* sidebar */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background: #1e2a44;
+    color: white;
+    padding: 15px;
+}
+
+/* cards */
+.card {
+    background: white;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+/* grade colors */
+.A { color: #0b6623; font-weight: bold; }
+.B { color: #66bb6a; font-weight: bold; }
+.C { color: #f4c430; font-weight: bold; }
+.D { color: #e53935; font-weight: bold; }
+.F { color: #b71c1c; font-weight: bold; }
+
+/* dark mode */
+.dark {
+    background: #121212;
+    color: white;
+}
+
+/* confetti canvas */
+#confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}

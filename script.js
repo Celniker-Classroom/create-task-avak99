@@ -1,64 +1,183 @@
-let grades = []; 
-// This array stores all grade objects the user adds
+let state = {
+    classes: {},
+    current: null
+};
 
-document.getElementById("addBtn").addEventListener("click", function () {
-    addGrade(); 
-    // Runs addGrade when the user clicks "Add"
-});
+/* ---------------- SETUP ---------------- */
 
-document.getElementById("calcBtn").addEventListener("click", function () {
-    calculate(grades);
-    // Runs calculate using the full grades list when user clicks "Calculate"
-});
+function startSetup() {
+    let count = Number(document.getElementById("classCount").value);
 
-function addGrade() {
-    let category = document.getElementById("category").value;
-    let weight = Number(document.getElementById("weight").value);
-    let grade = Number(document.getElementById("grade").value);
-    // Gets user input from the form fields and converts numbers
+    for (let i = 0; i < count; i++) {
+        let name = prompt("Enter class name " + (i + 1));
+        state.classes[name] = [];
+    }
 
-    grades.push({
-        category: category,
-        weight: weight,
-        grade: grade
-    });
-    // Adds a new grade object into the grades list
+    state.current = Object.keys(state.classes)[0];
 
-    document.getElementById("output").innerText = "Grade added";
-    // Shows confirmation message to the user
+    document.getElementById("setupScreen").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+
+    renderClasses();
 }
 
-function calculate(calcGrades) {
-    if (calcGrades.length === 0) {
-        document.getElementById("output").innerText = "No grades entered";
-        return;
-        // Stops function if there is no data in the list
+/* ---------------- CLASSES ---------------- */
+
+function renderClasses() {
+    let list = document.getElementById("classList");
+    list.innerHTML = "";
+
+    for (let c in state.classes) {
+        let div = document.createElement("div");
+        div.className = "card";
+        div.innerText = c;
+
+        div.onclick = () => {
+            state.current = c;
+            document.getElementById("activeClassTitle").innerText = c;
+            render();
+        };
+
+        list.appendChild(div);
     }
+}
+
+/* ---------------- ADD ASSIGNMENT ---------------- */
+
+function addAssignment() {
+    if (!state.current) return;
+
+    state.classes[state.current].push({
+        name: assignmentName.value,
+        category: category.value,
+        earned: Number(earned.value),
+        possible: Number(possible.value)
+    });
+
+    render();
+}
+
+/* ---------------- RENDER ---------------- */
+
+function render() {
+    let box = document.getElementById("table");
+    box.innerHTML = "";
+
+    let cls = state.classes[state.current];
+
+    cls.forEach(a => {
+        let div = document.createElement("div");
+        div.className = "card";
+
+        div.innerText =
+            `${a.name} | ${a.category} | ${a.earned}/${a.possible}`;
+
+        box.appendChild(div);
+    });
+}
+
+/* ---------------- CALCULATE ---------------- */
+
+function calculate() {
+    let cls = state.classes[state.current];
 
     let total = 0;
-    let totalWeight = 0;
-    // Variables used to calculate weighted average
 
-    for (let i = 0; i < calcGrades.length; i++) {
-        total += calcGrades[i].grade * calcGrades[i].weight;
-        totalWeight += calcGrades[i].weight;
-        // Loops through list and builds total score and total weight
+    cls.forEach(a => {
+        total += (a.earned / a.possible);
+    });
+
+    let avg = (total / cls.length) * 100;
+
+    let letter =
+        avg >= 90 ? "A" :
+        avg >= 80 ? "B" :
+        avg >= 70 ? "C" :
+        avg >= 60 ? "D" : "F";
+
+    let output = document.getElementById("gradeOutput");
+
+    output.innerText = `${avg.toFixed(2)} (${letter})`;
+    output.className = letter;
+
+    calculateGPA(avg);
+
+    if (letter === "A" || letter === "B") {
+        celebrate(state.current, letter);
     }
 
-    let finalGrade = total / totalWeight;
-    // Calculates final weighted grade
-
-    document.getElementById("output").innerText =
-        "Final Grade: " + finalGrade.toFixed(2) +
-        " | GPA: " + toGPA(finalGrade).toFixed(2);
-    // Displays final results to the user
+    if (letter === "A") confetti();
 }
 
-function toGPA(score) {
-    if (score >= 90) return 4;
-    else if (score >= 80) return 3;
-    else if (score >= 70) return 2;
-    else if (score >= 60) return 1;
-    else return 0;
-    // Converts numeric score into GPA scale
+/* ---------------- GPA ---------------- */
+
+function calculateGPA(avg) {
+    let gpa = avg / 25;
+    document.getElementById("gpaOutput").innerText =
+        "GPA: " + gpa.toFixed(2);
+}
+
+/* ---------------- WHAT IF ---------------- */
+
+function whatIf() {
+    let cls = state.classes[state.current];
+
+    let fake = [...cls];
+
+    fake.push({
+        earned: Number(wEarned.value),
+        possible: Number(wPossible.value)
+    });
+
+    let total = 0;
+
+    fake.forEach(a => {
+        total += (a.earned / a.possible);
+    });
+
+    let avg = (total / fake.length) * 100;
+
+    document.getElementById("whatResult").innerText =
+        "Projected: " + avg.toFixed(2);
+}
+
+/* ---------------- DARK MODE ---------------- */
+
+function toggleDark() {
+    document.body.classList.toggle("dark");
+}
+
+/* ---------------- SOUND + MESSAGE ---------------- */
+
+function celebrate(className, grade) {
+    let msg = `Great job in ${className}!`;
+
+    let utter = new SpeechSynthesisUtterance(msg);
+    speechSynthesis.speak(utter);
+
+    let audio = new AudioContext();
+    let osc = audio.createOscillator();
+
+    osc.frequency.value = grade === "A" ? 880 : 520;
+    osc.connect(audio.destination);
+
+    osc.start();
+    osc.stop(audio.currentTime + 0.2);
+}
+
+/* ---------------- CONFETTI ---------------- */
+
+function confetti() {
+    let c = document.getElementById("confetti");
+    let ctx = c.getContext("2d");
+
+    c.width = innerWidth;
+    c.height = innerHeight;
+
+    for (let i = 0; i < 200; i++) {
+        ctx.fillStyle = `hsl(${Math.random()*360},100%,50%)`;
+        ctx.fillRect(Math.random()*c.width, Math.random()*c.height, 5, 5);
+    }
+
+    setTimeout(() => ctx.clearRect(0,0,c.width,c.height), 1200);
 }

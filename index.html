@@ -7,26 +7,84 @@
  grade and it also includes a GPA 
  calculator that converts the percentage into the 4.0 scale to give an overall academic summary. 
  Overall, the goal of this project is to create a tool that 
- simplifies grade tracking and performance evaluation.  -->
-
+ simplifies grade tracking and performance evaluation. I later added 
+ a bunch of other cool features, with my aim to resemble the student view
+ of an advanced gradebook like Aeries. -->
+ 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Gradebook</title>
-    <script src="script.js" defer></script>
+<meta charset="UTF-8">
+<title>Grade Portal</title>
+
+<link rel="stylesheet" href="styles.css">
+<script src="script.js" defer></script>
 </head>
 
 <body>
-    <h1>Gradebook</h1>
 
-    <input id="category" placeholder="Category (hw, quiz, test, proj)">
-    <input id="weight" type="number" placeholder="Weight %">
-    <input id="grade" type="number" placeholder="Grade (0-100)">
+<!-- SETUP SCREEN -->
+<div id="setupScreen" class="screen">
+    <h1>Welcome to Grade Portal</h1>
 
-    <button id="addBtn">Add</button>
-    <button id="calcBtn">Calculate</button>
+    <p>How many classes do you have?</p>
+    <input id="classCount" type="number">
 
-    <p id="output"></p>
+    <button onclick="startSetup()">Start</button>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="hidden">
+
+    <div class="sidebar">
+        <h2>Classes</h2>
+        <div id="classList"></div>
+        <button onclick="toggleDark()">Dark Mode</button>
+    </div>
+
+    <div class="main">
+
+        <h1 id="activeClassTitle">Select a Class</h1>
+
+        <div class="card">
+            <input id="assignmentName" placeholder="Assignment name">
+
+            <select id="category">
+                <option>Homework</option>
+                <option>Quiz</option>
+                <option>Test</option>
+            </select>
+
+            <input id="earned" type="number" placeholder="Points Earned">
+            <input id="possible" type="number" placeholder="Points Possible">
+
+            <button onclick="addAssignment()">Add Assignment</button>
+        </div>
+
+        <div class="card">
+            <button onclick="calculate()">Calculate Grade</button>
+            <div id="gradeOutput"></div>
+            <div id="gpaOutput"></div>
+        </div>
+
+        <div class="card">
+            <h3>What If Calculator</h3>
+
+            <input id="wEarned" placeholder="Earned Points">
+            <input id="wPossible" placeholder="Possible Points">
+
+            <button onclick="whatIf()">Simulate</button>
+
+            <div id="whatResult"></div>
+        </div>
+
+        <div id="table"></div>
+
+    </div>
+
+</div>
+
+<canvas id="confetti"></canvas>
+
 </body>
 </html>
