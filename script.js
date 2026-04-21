@@ -1,148 +1,158 @@
-let state = { classes: {}, current: null };
-let audioCtx;
+let state = {
+    classes: {},
+    current: null
+};
 
-/* ERROR */
-function showError(msg) {
-    let box = document.getElementById("errorBox");
-    box.innerText = msg;
-    box.classList.remove("hidden");
-
-    setTimeout(() => box.classList.add("hidden"), 3000);
-}
-
-/* START */
+/* START SETUP */
 function startSetup() {
-    let count = Number(classCount.value);
+    let count = Number(document.getElementById("classCount").value);
 
-    if (!count || count > 8)
-        return showError("Enter 1–8 classes");
+    if (!count || count < 1 || count > 8) {
+        alert("Enter 1–8 classes");
+        return;
+    }
+
+    state.classes = {};
 
     for (let i = 0; i < count; i++) {
-        let name = prompt("Class name:");
-        state.classes[name] = { assignments: [], weighted: true };
+        let name = prompt("Enter class name " + (i + 1));
+
+        if (!name) name = "Class " + (i + 1);
+
+        let weighted = confirm(
+            "Is this class weighted?\nOK = Weighted\nCancel = Unweighted"
+        );
+
+        state.classes[name] = {
+            assignments: [],
+            isWeighted: weighted
+        };
     }
 
     state.current = Object.keys(state.classes)[0];
 
-    setupScreen.classList.add("hidden");
-    app.classList.remove("hidden");
-
-    renderClasses();
+    // SHOW BUTTON INSTEAD OF AUTO SWITCH
+    document.getElementById("goBtn").style.display = "block";
 }
 
-/* CLASSES */
-function renderClasses() {
-    classList.innerHTML = "";
+/* GO TO GRADEBOOK (THIS FIXES YOUR ISSUE) */
+function goToGradebook() {
+    document.getElementById("setupScreen").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
 
-    for (let c in state.classes) {
-        let d = document.createElement("div");
-        d.innerText = c;
-        d.onclick = () => state.current = c;
-        classList.appendChild(d);
+    renderSidebar();
+    renderClass();
+    updateGPA();
+}
+
+/* CALCULATE CLASS GRADE */
+function calcClass(name) {
+    let c = state.classes[name];
+
+    let total = 0;
+    let possible = 0;
+
+    c.assignments.forEach(a => {
+        total += a.earned;
+        possible += a.possible;
+    });
+
+    if (possible === 0) return 0;
+
+    return (total / possible) * 100;
+}
+
+/* LETTER GRADE */
+function letter(p) {
+    if (p >= 90) return "A";
+    if (p >= 80) return "B";
+    if (p >= 70) return "C";
+    if (p >= 60) return "D";
+    return "F";
+}
+
+/* SIDEBAR */
+function renderSidebar() {
+    let list = document.getElementById("classList");
+    list.innerHTML = "";
+
+    for (let name in state.classes) {
+        let pct = calcClass(name);
+        let l = letter(pct);
+
+        let div = document.createElement("div");
+        div.innerHTML = name + " - " + pct.toFixed(1) + "% (" + l + ")";
+        div.style.padding = "8px";
+        div.style.cursor = "pointer";
+
+        div.onclick = () => {
+            state.current = name;
+            renderClass();
+        };
+
+        list.appendChild(div);
     }
 }
 
-/* SOUND (FIXED GLOBAL AUDIO) */
-function clickFX(btn) {
-    btn.style.transform = "scale(0.95)";
+/* CLASS VIEW */
+function renderClass() {
+    let name = state.current;
 
-    if (!audioCtx) audioCtx = new AudioContext();
+    let pct = calcClass(name);
+    let l = letter(pct);
 
-    let osc = audioCtx.createOscillator();
-    osc.frequency.value = 600;
-    osc.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.08);
+    document.getElementById("classGrade").innerText =
+        name + ": " + pct.toFixed(2) + "% (" + l + ")";
 
-    setTimeout(() => btn.style.transform = "scale(1)", 100);
+    renderSidebar();
 }
 
-/* ADD */
+/* ADD ASSIGNMENT */
 function addAssignment() {
-    let e = Number(earned.value);
-    let p = Number(possible.value);
-
-    if (e > p) return showError("Earned > Possible not allowed");
-
     state.classes[state.current].assignments.push({
-        earned: e,
-        possible: p
+        category: document.getElementById("category").value,
+        earned: Number(document.getElementById("earned").value),
+        possible: Number(document.getElementById("possible").value)
     });
 
-    clickFX(event.target);
+    renderClass();
+    updateGPA();
 }
 
-/* CALC */
-function calculate() {
-    let cls = state.classes[state.current];
+/* GPA */
+function updateGPA() {
+    let sum = 0;
+    let count = 0;
 
-    let t = 0, p = 0;
+    for (let c in state.classes) {
+        let pct = calcClass(c);
+        if (pct === 0) continue;
 
-    cls.assignments.forEach(a => {
-        t += a.earned;
-        p += a.possible;
-    });
+        let gpa =
+            pct >= 90 ? 4 :
+            pct >= 80 ? 3 :
+            pct >= 70 ? 2 :
+            pct >= 60 ? 1 : 0;
 
-    if (p === 0) return showError("No data");
+        sum += gpa;
+        count++;
+    }
 
-    let pct = (t / p) * 100;
+    if (count === 0) return;
 
-    let letter =
-        pct >= 90 ? "A" :
-        pct >= 80 ? "B" :
-        pct >= 70 ? "C" :
-        pct >= 60 ? "D" : "F";
+    let avg = sum / count;
 
-    gradeOutput.innerText = pct.toFixed(2) + "% " + letter;
-
-    document.body.className = letter + "-bg";
-
-    updateGPA(letter);
-
-    if (pct >= 90) confetti();
-}
-
-/* GPA + VOICE */
-function updateGPA(letter) {
-    let base =
-        letter === "A" ? 4 :
-        letter === "B" ? 3 :
-        letter === "C" ? 2 :
-        letter === "D" ? 1 : 0;
-
-    uwGPA.innerText = base;
-    wGPA.innerText = base;
-
-    let msg =
-        base === 4 ? "Congrats on your perfect GPA" :
-        base >= 3 ? "Your GPA is above average" :
-        "Keep improving your GPA";
-
-    speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+    document.getElementById("uwGPA").innerText = avg.toFixed(2);
+    document.getElementById("wGPA").innerText = avg.toFixed(2);
 }
 
 /* DARK MODE */
-function toggleMode() {
+function toggleDark() {
     document.body.classList.toggle("dark");
 }
 
-/* CONFETTI */
-function confetti() {
-    let c = document.getElementById("confetti");
-    let ctx = c.getContext("2d");
-
-    c.width = innerWidth;
-    c.height = innerHeight;
-
-    for (let i = 0; i < 250; i++) {
-        ctx.fillRect(Math.random()*c.width, Math.random()*c.height, 4, 4);
-    }
-
-    setTimeout(() => ctx.clearRect(0,0,c.width,c.height), 1200);
-}
-
-/* WHAT IF */
-function whatIf() {
-    let pct = Number(whatPercent.value);
-    whatResult.innerText = "Projected: " + pct + "%";
+/* CALCULATE BUTTON */
+function calculate() {
+    renderClass();
+    updateGPA();
 }

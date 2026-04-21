@@ -11,80 +11,63 @@
  a bunch of other cool features, with my aim to resemble the student view
  of an advanced gradebook like Aeries. -->
  
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Grade Portal</title>
-
 <link rel="stylesheet" href="styles.css">
 <script src="script.js" defer></script>
 </head>
 
 <body>
 
-<!-- SETUP -->
-<div id="setupScreen" class="setup">
+<!-- SETUP SCREEN -->
+<div id="setupScreen" class="setupScreen">
     <h1>Grade Portal</h1>
 
-    <input id="classCount" type="number" placeholder="Number of classes">
-    <button onclick="startSetup(); clickFX(this)">Start</button>
+    <p>How many classes do you have?</p>
+
+    <input id="classCount" type="number" min="1" max="8">
+
+    <button onclick="startSetup()">Continue</button>
+
+    <!-- NEW BUTTON (starts hidden) -->
+    <button id="goBtn" onclick="goToGradebook()" style="display:none;">
+        Done with entering my classes. Go to Gradebook
+    </button>
 </div>
 
-<!-- APP -->
+<!-- GRADEBOOK -->
 <div id="app" class="hidden">
 
-    <!-- HEADER -->
-    <div class="header">
-        <h1>Grade Portal</h1>
+    <div class="topBar">
+        <h1>Gradebook</h1>
 
-        <button onclick="toggleMode(); clickFX(this)">
-            Toggle Dark/Light
-        </button>
+        <div>
+            Unweighted GPA: <span id="uwGPA">--</span> |
+            Weighted GPA: <span id="wGPA">--</span>
+        </div>
+
+        <button onclick="toggleDark()">Dark Mode</button>
     </div>
-
-    <div id="errorBox" class="errorBox hidden"></div>
 
     <div class="layout">
 
-        <!-- SIDEBAR -->
         <div class="sidebar">
             <h3>Classes</h3>
             <div id="classList"></div>
         </div>
 
-        <!-- CENTER -->
-        <div class="center">
+        <div class="main">
 
             <h2 id="activeClassTitle"></h2>
+            <div id="classGrade"></div>
 
-            <!-- GPA -->
-            <div class="gpaContainer">
-                <div class="gpaCard">
-                    <h3>Unweighted GPA</h3>
-                    <div id="uwGPA">--</div>
-                </div>
-
-                <div class="gpaCard">
-                    <h3>Weighted GPA</h3>
-                    <div id="wGPA">--</div>
-                </div>
-            </div>
-
-            <!-- WEIGHTS (NOW ABOVE INPUT) -->
-            <div class="panel">
-                <h3>Category Weights (%)</h3>
-
-                <input id="hwW" placeholder="Homework">
-                <input id="quizW" placeholder="Quizzes">
-                <input id="testW" placeholder="Tests">
-                <input id="projW" placeholder="Projects">
-                <input id="labW" placeholder="Labs">
-            </div>
-
-            <!-- ADD -->
             <div class="panel">
                 <input id="assignmentName" placeholder="Assignment">
+
                 <select id="category">
                     <option>Homework</option>
                     <option>Quizzes</option>
@@ -96,28 +79,15 @@
                 <input id="earned" placeholder="Earned">
                 <input id="possible" placeholder="Possible">
 
-                <button onclick="addAssignment(); clickFX(this)">Add</button>
+                <button onclick="addAssignment()">Add</button>
             </div>
 
-            <!-- CALC -->
             <div class="panel">
-                <button onclick="calculate(); clickFX(this)">Calculate</button>
+                <button onclick="calculate()">Calculate</button>
                 <div id="gradeOutput"></div>
             </div>
 
-            <!-- WHAT IF -->
-            <div class="panel">
-                <h3>What If</h3>
-
-                <input id="whatPercent" placeholder="Desired %">
-                <input id="whatPossible" placeholder="Points">
-
-                <button onclick="whatIf(); clickFX(this)">Simulate</button>
-                <div id="whatResult"></div>
-            </div>
-
         </div>
-
     </div>
 </div>
 
