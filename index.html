@@ -1,97 +1,48 @@
-<!-- This project for my create task is a Student Gradebook web 
- application that is designed to help users track and calculate 
- how they are doing in a class. 
- It allows students to enter grades and weight distributions for 
- different cateogries such as homework, quizzes, tests, projects, 
- and final exams. The system is built to calculate a weighted final 
- grade and it also includes a GPA 
- calculator that converts the percentage into the 4.0 scale to give an overall academic summary. 
- Overall, the goal of this project is to create a tool that 
- simplifies grade tracking and performance evaluation. I later added 
- a bunch of other cool features, with my aim to resemble the student view
- of an advanced gradebook like Aeries. -->
- 
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Grade Portal</title>
-<link rel="stylesheet" href="styles.css">
-<script src="script.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gradebook Calculator</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
+  <main class="page-shell">
+    <section id="setupScreen">
+      <h1>Gradebook Setup</h1>
+      <div class="prompt">
+        <label for="numClasses">How many classes do you have?</label>
+        <input id="numClasses" type="number" min="1" placeholder="Enter number of classes" />
+      </div>
+      <button id="continueBtn">Continue</button>
+      <div id="classInputs" class="class-input-grid"></div>
+    </section>
 
-<!-- SETUP SCREEN -->
-<div id="setupScreen" class="setupScreen">
-    <h1>Grade Portal</h1>
+    <section id="categoriesScreen" class="hidden">
+      <h1>Set Up Grade Components for Each Class</h1>
+      <p class="subtitle">Example: Labs, Homework, Quizzes, Exams, Projects, Participation</p>
+      <div id="categorySetupContainer"></div>
+      <button id="finishCategoriesBtn">Continue to Grades</button>
+    </section>
 
-    <p>How many classes do you have?</p>
-
-    <input id="classCount" type="number" min="1" max="8">
-
-    <button onclick="startSetup()">Continue</button>
-
-    <!-- NEW BUTTON (starts hidden) -->
-    <button id="goBtn" onclick="goToGradebook()" style="display:none;">
-        Done with entering my classes. Go to Gradebook
-    </button>
-</div>
-
-<!-- GRADEBOOK -->
-<div id="app" class="hidden">
-
-    <div class="topBar">
-        <h1>Gradebook</h1>
-
-        <div>
-            Unweighted GPA: <span id="uwGPA">--</span> |
-            Weighted GPA: <span id="wGPA">--</span>
+    <section id="gradebook" class="hidden">
+      <header class="gradebook-header">
+        <div class="header-left">
+          <button id="darkModeToggle">Toggle Dark Mode</button>
+          <button id="resetBtn">Reset</button>
         </div>
-
-        <button onclick="toggleDark()">Dark Mode</button>
-    </div>
-
-    <div class="layout">
-
-        <div class="sidebar">
-            <h3>Classes</h3>
-            <div id="classList"></div>
+        <div class="gpa-summary">
+          <div id="gpaOutput">GPA: 0.00</div>
+          <div id="unweightedOutput">Unweighted GPA: 0.00</div>
         </div>
+      </header>
 
-        <div class="main">
+      <section id="classesContainer" class="classes-grid"></section>
 
-            <h2 id="activeClassTitle"></h2>
-            <div id="classGrade"></div>
+      <div id="output" class="output-box">Enter your grade component scores to calculate.</div>
+    </section>
+  </main>
 
-            <div class="panel">
-                <input id="assignmentName" placeholder="Assignment">
-
-                <select id="category">
-                    <option>Homework</option>
-                    <option>Quizzes</option>
-                    <option>Tests</option>
-                    <option>Projects</option>
-                    <option>Labs</option>
-                </select>
-
-                <input id="earned" placeholder="Earned">
-                <input id="possible" placeholder="Possible">
-
-                <button onclick="addAssignment()">Add</button>
-            </div>
-
-            <div class="panel">
-                <button onclick="calculate()">Calculate</button>
-                <div id="gradeOutput"></div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<canvas id="confetti"></canvas>
-
+  <script src="script.js"></script>
 </body>
 </html>
