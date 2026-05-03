@@ -1,48 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gradebook Calculator</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gradebook Calculator</title>
+<link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
-  <main class="page-shell">
-    <section id="setupScreen">
-      <h1>Gradebook Setup</h1>
-      <div class="prompt">
-        <label for="numClasses">How many classes do you have?</label>
-        <input id="numClasses" type="number" min="1" placeholder="Enter number of classes" />
-      </div>
-      <button id="continueBtn">Continue</button>
-      <div id="classInputs" class="class-input-grid"></div>
-    </section>
+<div class="background-circles"></div>
+<main class="page-shell">
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h3 class="app-logo">Gradebook</h3>
+    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-item active" onclick="showScreen('setupScreen')">Setup Classes</div>
+    <div class="nav-item" onclick="showScreen('categoriesScreen')">Categories</div>
+    <div class="nav-item" onclick="showScreen('gradebook')">Grades</div>
+  </nav>
+  <div class="sidebar-stats">
+    <div class="stat-card">
+      <div class="stat-label">Classes</div>
+      <div class="stat-value" id="sidebarClassCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">GPA</div>
+      <div class="stat-value" id="sidebarGpa">0.00</div>
+    </div>
+  </div>
+  <div id="sidebarClassList"></div>
+  <div class="sidebar-actions">
+    <button class="action-btn dark-btn" id="sidebarDarkMode">Dark Mode</button>
+    <button class="action-btn reset-btn" id="sidebarReset">Reset</button>
+  </div>
+</aside>
 
-    <section id="categoriesScreen" class="hidden">
-      <h1>Set Up Grade Components for Each Class</h1>
-      <p class="subtitle">Example: Labs, Homework, Quizzes, Exams, Projects, Participation</p>
-      <div id="categorySetupContainer"></div>
-      <button id="finishCategoriesBtn">Continue to Grades</button>
-    </section>
+<div class="main-content">
 
-    <section id="gradebook" class="hidden">
-      <header class="gradebook-header">
-        <div class="header-left">
-          <button id="darkModeToggle">Toggle Dark Mode</button>
-          <button id="resetBtn">Reset</button>
-        </div>
-        <div class="gpa-summary">
-          <div id="gpaOutput">GPA: 0.00</div>
-          <div id="unweightedOutput">Unweighted GPA: 0.00</div>
-        </div>
-      </header>
+<div class="main-content">
+<header class="app-banner">
+  <div class="banner-copy">
+    <p class="eyebrow">Study Smarter</p>
+    <h1>Gradebook Calculator</h1>
+    <p class="banner-subtitle">Create classes, set up grade categories, and calculate your GPA.</p>
+  </div>
+</header>
 
-      <section id="classesContainer" class="classes-grid"></section>
+<section id="setupScreen">
+<h2>Setup Your Classes</h2>
 
-      <div id="output" class="output-box">Enter your grade component scores to calculate.</div>
-    </section>
-  </main>
+<div class="prompt">
+<label for="numClasses">How many classes do you have?</label>
+<input id="numClasses" type="number" min="1" placeholder="Enter number of classes" />
+</div>
 
-  <script src="script.js"></script>
+<button id="continueBtn" class="btn btn-primary">Continue</button>
+
+<div id="classInputs" class="class-input-grid"></div>
+</section>
+
+<section id="categoriesScreen" class="hidden">
+<h2>Set Up Grade Components</h2>
+<p class="subtitle">Example: Labs, Homework, Quizzes, Exams, Projects</p>
+
+<div id="categorySetupContainer"></div>
+
+<button id="finishCategoriesBtn" class="btn btn-primary">Continue to Grades</button>
+</section>
+
+<section id="gradebook" class="hidden">
+
+<header class="gradebook-header">
+<div class="gpa-summary spin-on-hover">
+<div id="gpaOutput">Weighted GPA: 0.00</div>
+<div id="unweightedOutput">Unweighted GPA: 0.00</div>
+</div>
+</header>
+
+<h2>Enter Your Grades</h2>
+
+<section id="classesContainer" class="classes-grid"></section>
+
+<button id="calculateGpaBtn" class="btn btn-primary">Calculate your GPA</button>
+
+<div id="output" class="output-box">
+Enter your grade component scores to calculate.
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
