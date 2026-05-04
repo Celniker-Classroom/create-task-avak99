@@ -3,9 +3,7 @@ let classes = [];
 let gradientIndex = 0;
 let gradientTimer = null;
 
-/* =========================
-   🔊 SOUND SYSTEM (UPDATED)
-========================= */
+//source: https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
 let audioContext;
 
 function initAudio() {
@@ -31,7 +29,7 @@ function playClick() {
   oscillator.start(audioContext.currentTime);
   oscillator.stop(audioContext.currentTime + 0.1);
 }
-
+//source: https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/createOscillator?utm_source
 function playType() {
   initAudio();
   const oscillator = audioContext.createOscillator();
@@ -49,9 +47,7 @@ function playType() {
   oscillator.stop(audioContext.currentTime + 0.05);
 }
 
-/* =========================
-   COLORS
-========================= */
+//source: https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event
 const gradeColors = {
   A: { background: "#0f7b22", text: "#eef7e7" },
   B: { background: "#a9d36f", text: "#1b3211" },
@@ -81,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   injectDarkModeStyles();
   createFloatingCircles();
 });
-
+//source: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
 function createFloatingCircles() {
   const container = document.querySelector('.background-circles');
   if (!container) return;
@@ -99,7 +95,7 @@ function createFloatingCircles() {
   const animations = ['floatCircle', 'floatCircleUpDown', 'floatCircleLeftRight', 'floatCircleDiag1', 'floatCircleDiag2', 'floatCircleCircular', 'floatCircleSpiral', 'floatCircleWave'];
 
   container.innerHTML = '';
-
+//source: https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
   for (let i = 0; i < 100; i++) {
     const circle = document.createElement('div');
     circle.className = 'bg-circle';
@@ -117,8 +113,7 @@ function createFloatingCircles() {
     circle.style.border = '2px solid rgba(255,255,255,0.7)';
     container.appendChild(circle);
   }
-
-  // Add particles for setup screen
+//source: https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
   if (document.getElementById('setupScreen') && !document.getElementById('setupScreen').classList.contains('hidden')) {
     createSetupParticles();
   }
@@ -128,7 +123,6 @@ function createSetupParticles() {
   const container = document.querySelector('.background-circles');
   if (!container) return;
 
-  // Remove existing particles
   container.querySelectorAll('.particle').forEach(p => p.remove());
 
   for (let i = 0; i < 30; i++) {
@@ -143,7 +137,7 @@ function createSetupParticles() {
     container.appendChild(particle);
   }
 }
-
+//source: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
 function createDynamicCompletionElements() {
   const container = document.querySelector('.background-circles');
   if (!container || !allGradesEntered()) return;
@@ -155,7 +149,7 @@ function createDynamicCompletionElements() {
     'rgba(34, 197, 94, 0.14)',
     'rgba(74, 222, 128, 0.12)'
   ];
-
+source: https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
   for (let i = 0; i < 12; i++) {
     const shape = document.createElement('div');
     shape.className = 'dynamic-shape';
@@ -192,9 +186,6 @@ function clearDynamicCompletionElements() {
 }
 
 
-/* =========================
-   SETUP
-========================= */
 function continueSetup(event) {
   event?.preventDefault();
 
@@ -211,10 +202,7 @@ function continueSetup(event) {
     currentStep = 2;
   }
 }
-
-/* =========================
-   CLASS INPUTS (WITH AP)
-========================= */
+//source: https://www.w3schools.com/jsref/met_document_getelementbyid.asp
 function generateClassInputs(num) {
   const container = document.getElementById("classInputs");
   container.innerHTML = "";
@@ -238,7 +226,7 @@ function generateClassInputs(num) {
 
   document.getElementById("continueBtn2").onclick = collectClassesAndShowCategories;
 }
-
+//source: https://www.w3schools.com/jsref/met_document_queryselectorall.asp
 function collectClassesAndShowCategories(e) {
   playClick();
   e.preventDefault();
@@ -259,9 +247,7 @@ function collectClassesAndShowCategories(e) {
   showCategoriesScreen();
 }
 
-/* =========================
-   CATEGORY SCREEN (UNCHANGED)
-========================= */
+
 function showCategoriesScreen() {
   document.getElementById("setupScreen").classList.add("hidden");
   document.getElementById("categoriesScreen").classList.remove("hidden");
@@ -283,7 +269,7 @@ function renderCategorySetup() {
     `;
   });
 }
-
+//source: https://www.javascripttutorial.net/javascript-dom/javascript-createelement/ 
 function generateComponentInputsForClass(i) {
   playClick();
   const num = parseInt(document.getElementById(`numCat${i}`).value);
@@ -335,9 +321,7 @@ function finishCategoriesSetup(e) {
   showGradebook();
 }
 
-/* =========================
-   GRADEBOOK
-========================= */
+
 function showGradebook() {
   document.getElementById("categoriesScreen").classList.add("hidden");
   document.getElementById("gradebook").classList.remove("hidden");
@@ -371,9 +355,7 @@ function updateComponentGrade(i, j, val) {
   calculateClassGrade(i);
 }
 
-/* =========================
-   CALCULATIONS
-========================= */
+
 function calculateClassGrade(i) {
   let total = 0, weight = 0;
 
@@ -426,23 +408,21 @@ function showScreen(screenId) {
       screen.classList.add('hidden');
     }
   });
-  // Update nav active state
+  //source: https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
   document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
   const activeNav = Array.from(document.querySelectorAll('.nav-item')).find(item => item.onclick.toString().includes(screenId));
   if (activeNav) activeNav.classList.add('active');
 
-  // Add special background for setup screen
   if (screenId === 'setupScreen') {
     document.body.classList.add('setup-bg');
   } else {
     document.body.classList.remove('setup-bg');
   }
 
-  // Add special effects for setup screen
   if (screenId === 'setupScreen') {
     createSetupParticles();
   } else {
-    // Remove particles for other screens
+
     document.querySelectorAll('.particle').forEach(p => p.remove());
   }
 }
@@ -457,9 +437,7 @@ function updateSidebar() {
   document.getElementById('sidebarGpa').textContent = gpaValue.toFixed(2);
 }
 
-/* =========================
-   VOICE FIX
-========================= */
+//source: https://developer.mozilla.org/en-US/docs/Web/API/Window/speechSynthesis
 let spoken = false;
 
 function handleRewards(weighted, unweighted) {
@@ -480,12 +458,12 @@ function handleRewards(weighted, unweighted) {
 }
 
 function showConfetti() {
-  // Remove any existing confetti
+
   const existingConfetti = document.querySelector('.confetti-container');
   if (existingConfetti) {
     document.body.removeChild(existingConfetti);
   }
-
+//source: https://www.javascripttutorial.net/javascript-dom/javascript-createelement/
   const confettiContainer = document.createElement('div');
   confettiContainer.className = 'confetti-container';
   confettiContainer.style.position = 'fixed';
@@ -522,9 +500,7 @@ function allGradesEntered() {
   return classes.every(c => c.components.every(x => x.grade > 0));
 }
 
-/* =========================
-   BACKGROUND ANIMATION
-========================= */
+
 function updateDynamicBackground(gpa) {
   const gradientMap = [
     { threshold: 3.5, gradient: "linear-gradient(135deg, #0f766e 0%, #22c55e 20%, #5eead4 45%, #bef264 75%, #4ade80 100%)" },
@@ -546,17 +522,13 @@ function updateDynamicBackground(gpa) {
   }, 35);
 }
 
-/* =========================
-   SPEECH
-========================= */
+//source:  https://www.javascripttutorial.net/javascript-dom/javascript-createelement/
 function speak(text) {
   let u = new SpeechSynthesisUtterance(text);
   speechSynthesis.speak(u);
 }
 
-/* =========================
-   DARK MODE + RESET
-========================= */
+
 function toggleDarkMode() {
   document.body.classList.toggle("dark-mode");
 }
@@ -573,7 +545,6 @@ function calculateAndDisplayGPA() {
   updateDynamicBackground(gpas.unweighted);
   playClick(); // Ensure sound plays
 
-  // Add voice narration
   speak(`Your weighted GPA is ${gpas.weighted}`);
   setTimeout(() => speak(`Your unweighted GPA is ${gpas.unweighted}`), 2000);
 
