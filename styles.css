@@ -157,7 +157,7 @@ body::before {
   position: relative;
   z-index: 1;
 }
-//source: https://css-tricks.com/almanac/properties/b/box-shadow/ 
+/* source: https://css-tricks.com/almanac/properties/b/box-shadow/ */
 .background-circles .bg-circle {
   position: absolute;
   border-radius: 50%;
